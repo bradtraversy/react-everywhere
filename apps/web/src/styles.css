@@ -1,0 +1,137 @@
+:root {
+  --bg: #0b0d10;
+  --surface: #14181d;
+  --line: #232a32;
+  --text: #e8eef5;
+  --muted: #7d8b9a;
+  --accent: #35d6a4;
+  --warn: #f5b544;
+  --done: #ff5f56;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 50% 0%, #151a21 0%, var(--bg) 60%);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(1.25rem, 4vh, 2.5rem);
+  padding: clamp(1rem, 4vh, 3rem);
+}
+
+.app[data-state='warn'] {
+  --accent: var(--warn);
+}
+
+.app[data-state='done'] {
+  --accent: var(--done);
+}
+
+.dial {
+  position: relative;
+  width: min(320px, 70vw, 55vh);
+  aspect-ratio: 1;
+}
+
+.dial svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.track,
+.fill {
+  fill: none;
+  stroke-width: 14;
+  stroke-linecap: round;
+}
+
+.track {
+  stroke: var(--line);
+}
+
+.fill {
+  stroke: var(--accent);
+  transition: stroke-dashoffset 0.98s linear, stroke 0.3s ease;
+}
+
+.readout {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.digits {
+  font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+  font-size: clamp(3.5rem, 12vw, 5.5rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.status {
+  font-size: 0.8rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.controls {
+  display: flex;
+  gap: 0.75rem;
+}
+
+button {
+  padding: 0.7rem 1.6rem;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+button:hover:not(:disabled) {
+  background: #1b2129;
+  border-color: #33404d;
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.chip {
+  font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+  font-size: 0.8rem;
+  color: var(--muted);
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+
+.chip strong {
+  color: var(--accent);
+  font-weight: 600;
+}
