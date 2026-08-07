@@ -13,6 +13,7 @@
     "apps/*"
   ],
   "scripts": {
-    "web": "npm run dev -w @react-everywhere/web"
+    "web": "npm run dev -w @react-everywhere/web",
+    "electron": "npm run dev -w @react-everywhere/electron"
   }
 }

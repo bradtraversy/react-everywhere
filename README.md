@@ -11,7 +11,7 @@ The rule for this repo: **if a renderer requires editing `useTimer.js`, the rend
 | # | Target | Renderer | Status |
 |---|--------|----------|--------|
 | 1 | Web | `react-dom` | done |
-| 2 | Desktop | Electron | todo |
+| 2 | Desktop | Electron | done |
 | 3 | Mobile | React Native | todo |
 | 4 | Terminal | Ink | todo |
 | 5 | 3D | React Three Fiber | todo |
@@ -23,8 +23,12 @@ The rule for this repo: **if a renderer requires editing `useTimer.js`, the rend
 
 ```bash
 npm install
-npm run web
+
+npm run web        # browser, http://localhost:5173
+npm run electron   # desktop window (starts Vite on 5174, then Electron)
 ```
+
+Each app pins its own port with `strictPort`, so nothing silently drifts onto a port another app owns. You only ever need one running at a time.
 
 ## How the hook stays portable
 
