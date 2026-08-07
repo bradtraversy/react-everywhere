@@ -13,7 +13,7 @@ The rule for this repo: **if a renderer requires editing `useTimer.js`, the rend
 | 1 | Web | `react-dom` | done |
 | 2 | Desktop | Electron | done |
 | 3 | Mobile | React Native (Expo) | done |
-| 4 | Terminal | Ink | todo |
+| 4 | Terminal | Ink | done |
 | 5 | 3D | React Three Fiber | todo |
 | 6 | Video | Remotion | todo |
 | 7 | PDF | `@react-pdf/renderer` | todo |
@@ -27,6 +27,7 @@ npm install
 npm run web        # browser, http://localhost:5173
 npm run electron   # desktop window (starts Vite on 5174, then Electron)
 npm run mobile     # Expo dev server; press i for iOS, a for Android
+npm run terminal   # no server, no browser - it just runs in your shell
 ```
 
 `mobile` needs an iOS simulator (macOS only), an Android emulator, or Expo Go on a
