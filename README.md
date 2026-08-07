@@ -12,7 +12,7 @@ The rule for this repo: **if a renderer requires editing `useTimer.js`, the rend
 |---|--------|----------|--------|
 | 1 | Web | `react-dom` | done |
 | 2 | Desktop | Electron | done |
-| 3 | Mobile | React Native | todo |
+| 3 | Mobile | React Native (Expo) | done |
 | 4 | Terminal | Ink | todo |
 | 5 | 3D | React Three Fiber | todo |
 | 6 | Video | Remotion | todo |
@@ -26,7 +26,12 @@ npm install
 
 npm run web        # browser, http://localhost:5173
 npm run electron   # desktop window (starts Vite on 5174, then Electron)
+npm run mobile     # Expo dev server; press i for iOS, a for Android
 ```
+
+`mobile` needs an iOS simulator (macOS only), an Android emulator, or Expo Go on a
+physical device. Metro is configured for the monorepo in `apps/mobile/metro.config.js` -
+without the `watchFolders` entry it cannot see `packages/logic` two levels up.
 
 Each app pins its own port with `strictPort`, so nothing silently drifts onto a port another app owns. You only ever need one running at a time.
 
