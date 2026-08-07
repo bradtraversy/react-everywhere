@@ -1,0 +1,18 @@
+{
+  "name": "react-everywhere",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "One React hook. Every renderer. Zero edits to the logic.",
+  "author": {
+    "name": "Brad Traversy"
+  },
+  "license": "MIT",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "web": "npm run dev -w @react-everywhere/web"
+  }
+}
