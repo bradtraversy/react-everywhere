@@ -17,7 +17,7 @@ The rule for this repo: **if a renderer requires editing `useTimer.js`, the rend
 | 5 | 3D | React Three Fiber | done |
 | 6 | Video | Remotion | done |
 | 7 | PDF | `@react-pdf/renderer` | done |
-| 8 | XR | React Three XR | todo |
+| 8 | XR | React Three XR | done |
 
 ## Run it
 
@@ -32,7 +32,12 @@ npm run three      # 3D scene, http://localhost:5176
 npm run video      # Remotion studio
 npm run video:render   # renders apps/video/out/timer.mp4, no server involved
 npm run pdf        # writes apps/pdf/out/timer.pdf - no server, no browser
+npm run xr         # http://localhost:5177
 ```
+
+The XR build runs as a normal 3D scene without a headset, and the Enter VR / Enter AR
+buttons disable themselves when no device is present. WebXR needs a secure context:
+localhost counts, but a headset connecting over the LAN will need https or a tunnel.
 
 `mobile` needs an iOS simulator (macOS only), an Android emulator, or Expo Go on a
 physical device. Metro is configured for the monorepo in `apps/mobile/metro.config.js` -
@@ -50,6 +55,17 @@ useTimer({ elapsed })   // host owns time - Remotion frames, PDF snapshot
 ```
 
 Same file, same state shape, same return value. Only the time source moves.
+
+## Check the claim yourself
+
+Do not take the premise on faith. There is one hook, and it has never been edited:
+
+```bash
+find . -name "useTimer*" -not -path "*/node_modules/*"
+git log --oneline -- packages/logic/useTimer.js
+```
+
+One file, one commit, eight renderers importing it.
 
 ## Why this exists
 
