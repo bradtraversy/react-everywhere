@@ -16,7 +16,7 @@ The rule for this repo: **if a renderer requires editing `useTimer.js`, the rend
 | 4 | Terminal | Ink | done |
 | 5 | 3D | React Three Fiber | done |
 | 6 | Video | Remotion | done |
-| 7 | PDF | `@react-pdf/renderer` | todo |
+| 7 | PDF | `@react-pdf/renderer` | done |
 | 8 | XR | React Three XR | todo |
 
 ## Run it
@@ -31,6 +31,7 @@ npm run terminal   # no server, no browser - it just runs in your shell
 npm run three      # 3D scene, http://localhost:5176
 npm run video      # Remotion studio
 npm run video:render   # renders apps/video/out/timer.mp4, no server involved
+npm run pdf        # writes apps/pdf/out/timer.pdf - no server, no browser
 ```
 
 `mobile` needs an iOS simulator (macOS only), an Android emulator, or Expo Go on a

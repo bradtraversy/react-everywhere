@@ -1,0 +1,18 @@
+{
+  "name": "@react-everywhere/pdf",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/render.jsx --bundle --platform=node --format=esm --jsx=automatic --packages=external --outfile=dist/render.js",
+    "dev": "npm run build && node dist/render.js"
+  },
+  "dependencies": {
+    "@react-everywhere/logic": "*",
+    "@react-pdf/renderer": "^4.3.1",
+    "react": "^19.2.8"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.1"
+  }
+}
