@@ -35,13 +35,18 @@ npm run pdf        # writes apps/pdf/out/timer.pdf - no server, no browser
 npm run xr         # http://localhost:5177
 ```
 
-The XR build needs no headset. If no real XR device is present it installs an emulated
-Quest 3 via [IWER](https://github.com/meta-quest/immersive-web-emulator), so Enter VR
-works out of the box with mouse and keyboard controls for the headset and both hands.
+The XR build runs as a normal 3D scene in any browser. Entering a session needs a device,
+and there are three ways to get one:
 
-A real headset, or the Immersive Web Emulator browser extension, reports device support
-and is left alone - the emulator only ever stands in for something that is not there.
-Add `?native` to opt out entirely.
+| | how |
+|---|---|
+| A real headset | open the app in its browser, no flags |
+| [Immersive Web Emulator](https://chromewebstore.google.com/detail/immersive-web-emulator/cgffilbpcibhmcfbgggfhfolhkfbhmik) extension | install it, then use the plain URL - **recommended** |
+| No install at all | `?emulate` for a session, `?emulate&devui` to also drive the headset and hands |
+
+`?emulate` embeds [IWER](https://github.com/meta-quest/immersive-web-emulator) as a stand-in
+Quest 3. Do not combine it with the extension: it installs over the top of whatever is
+already on `navigator.xr` and the two will fight.
 
 WebXR needs a secure context: localhost counts, but a headset connecting over the LAN
 will need https or a tunnel.
