@@ -17,6 +17,8 @@
     "electron": "npm run dev -w @react-everywhere/electron",
     "mobile": "npm run start -w @react-everywhere/mobile",
     "terminal": "npm run dev -w @react-everywhere/terminal",
-    "three": "npm run dev -w @react-everywhere/three"
+    "three": "npm run dev -w @react-everywhere/three",
+    "video": "npm run dev -w @react-everywhere/video",
+    "video:render": "npm run render -w @react-everywhere/video"
   }
 }
