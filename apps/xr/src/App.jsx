@@ -4,7 +4,17 @@ import { XR, createXRStore } from '@react-three/xr';
 import { useEffect, useRef, useState } from 'react';
 import { glyphCells } from './glyphs.js';
 
-const RING_RADIUS = 9;
+// Everything below is in metres, because that is what a unit means once an
+// immersive session starts.
+const CELL = 0.11;
+const RING_RADIUS = 1.1;
+const RING_TUBE = 0.035;
+
+// Where the timer hangs relative to the viewer. Centred a little below
+// standing eye level and far enough out to read comfortably.
+const SCENE = [0, 1.2, -2];
+const CAMERA = [0, 1.2, 1];
+
 const OK = '#35d6a4';
 const WARN = '#f5b544';
 const DONE = '#ff5f56';
@@ -20,9 +30,9 @@ function Digits({ label, color }) {
 
   return (
     <group ref={group}>
-      {glyphCells(label).map((position, i) => (
-        <mesh key={i} position={position}>
-          <boxGeometry args={[0.9, 0.9, 0.9]} />
+      {glyphCells(label).map(([x, y, z], i) => (
+        <mesh key={i} position={[x * CELL, y * CELL, z * CELL]}>
+          <boxGeometry args={[CELL * 0.9, CELL * 0.9, CELL * 0.9]} />
           <meshStandardMaterial
             color={color}
             emissive={color}
@@ -41,11 +51,11 @@ function Ring({ progress, color }) {
   return (
     <group rotation={[0, 0, Math.PI / 2]}>
       <mesh>
-        <torusGeometry args={[RING_RADIUS, 0.28, 16, 120]} />
+        <torusGeometry args={[RING_RADIUS, RING_TUBE, 16, 120]} />
         <meshStandardMaterial color="#232a32" roughness={0.6} />
       </mesh>
       <mesh scale={[1, -1, 1]}>
-        <torusGeometry args={[RING_RADIUS, 0.34, 16, 120, remaining]} />
+        <torusGeometry args={[RING_RADIUS, RING_TUBE * 1.2, 16, 120, remaining]} />
         <meshStandardMaterial
           color={color}
           emissive={color}
@@ -53,47 +63,6 @@ function Ring({ progress, color }) {
           roughness={0.25}
         />
       </mesh>
-    </group>
-  );
-}
-
-// In an immersive session there is no DOM to click, so the controls are
-// meshes the user pokes with a controller ray or a hand.
-function Button3D({ position, color, disabled, onClick, children }) {
-  return (
-    <group position={position}>
-      <mesh
-        onClick={disabled ? undefined : onClick}
-        onPointerDown={disabled ? undefined : onClick}
-      >
-        <boxGeometry args={[4.4, 1.8, 0.6]} />
-        <meshStandardMaterial
-          color={disabled ? '#1b2129' : '#232a32'}
-          emissive={disabled ? '#000000' : color}
-          emissiveIntensity={disabled ? 0 : 0.18}
-        />
-      </mesh>
-      {children}
-    </group>
-  );
-}
-
-function Controls({ running, start, pause, reset }) {
-  return (
-    <group position={[0, -10.8, 0]}>
-      <Button3D
-        position={[-5, 0, 0]}
-        color={OK}
-        disabled={running}
-        onClick={start}
-      />
-      <Button3D
-        position={[0, 0, 0]}
-        color={WARN}
-        disabled={!running}
-        onClick={pause}
-      />
-      <Button3D position={[5, 0, 0]} color="#7d8b9a" onClick={reset} />
     </group>
   );
 }
@@ -115,7 +84,7 @@ function useXRSupport(mode) {
   return supported;
 }
 
-export default function App({ emulated = false }) {
+export default function App() {
   const { label, progress, running, finished, remaining, start, pause, reset } =
     useTimer();
 
@@ -135,29 +104,20 @@ export default function App({ emulated = false }) {
   return (
     <main className="app">
       <Canvas
-        camera={{ position: [0, 1.5, 0], fov: 50 }}
-        // R3F aims a configured camera at the origin, which would point it at
-        // the floor from eye height. Aim it at the scene instead.
-        onCreated={({ camera }) => camera.lookAt(0, 1.7, -3)}
+        camera={{ position: CAMERA, fov: 50 }}
+        // A configured camera is aimed at the origin by default, which points
+        // it past the scene. Aim it at the timer instead.
+        onCreated={({ camera }) => camera.lookAt(...SCENE)}
       >
         <color attach="background" args={['#0b0d10']} />
         <XR store={store}>
-          <ambientLight intensity={0.5} />
-          <directionalLight position={[2, 4, 1]} intensity={2.2} />
-          <pointLight position={[-2, 1, -1]} intensity={12} color={color} />
+          <ambientLight intensity={0.6} />
+          <directionalLight position={[2, 4, 2]} intensity={2.2} />
+          <pointLight position={[-2, 1, 0]} intensity={6} color={color} />
 
-          {/* One unit is one metre once a session starts, so the scene is
-              scaled down and placed 3m in front of the viewer at eye height.
-              The flat camera sits where a headset would. */}
-          <group position={[0, 1.7, -3]} scale={0.12}>
+          <group position={SCENE}>
             <Digits label={label} color={color} />
             <Ring progress={progress} color={color} />
-            <Controls
-              running={running}
-              start={start}
-              pause={pause}
-              reset={reset}
-            />
           </group>
         </XR>
       </Canvas>
@@ -185,11 +145,9 @@ export default function App({ emulated = false }) {
           renderer: <strong style={{ color }}>@react-three/xr</strong>
           {xrError ? (
             <span className="sub">xr error: {xrError}</span>
-          ) : emulated ? (
-            <span className="sub">emulated Quest 3</span>
           ) : (
             !vrSupported &&
-            !arSupported && <span className="sub">no xr device</span>
+            !arSupported && <span className="sub">no headset - try ?emulate</span>
           )}
         </footer>
       </div>
