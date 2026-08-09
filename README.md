@@ -35,9 +35,16 @@ npm run pdf        # writes apps/pdf/out/timer.pdf - no server, no browser
 npm run xr         # http://localhost:5177
 ```
 
-The XR build runs as a normal 3D scene without a headset, and the Enter VR / Enter AR
-buttons disable themselves when no device is present. WebXR needs a secure context:
-localhost counts, but a headset connecting over the LAN will need https or a tunnel.
+The XR build needs no headset. If no real XR device is present it installs an emulated
+Quest 3 via [IWER](https://github.com/meta-quest/immersive-web-emulator), so Enter VR
+works out of the box with mouse and keyboard controls for the headset and both hands.
+
+A real headset, or the Immersive Web Emulator browser extension, reports device support
+and is left alone - the emulator only ever stands in for something that is not there.
+Add `?native` to opt out entirely.
+
+WebXR needs a secure context: localhost counts, but a headset connecting over the LAN
+will need https or a tunnel.
 
 `mobile` needs an iOS simulator (macOS only), an Android emulator, or Expo Go on a
 physical device. Metro is configured for the monorepo in `apps/mobile/metro.config.js` -
