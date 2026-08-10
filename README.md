@@ -21,6 +21,10 @@ The rule for this repo: **if a renderer requires editing `useTimer.js`, the rend
 | 9 | Email | React Email | done |
 | 10 | Nothing | `react-nil` | done |
 
+`react-nil` stays last. Every other target shows React producing something you can look
+at; that one produces nothing and React still runs, which is the point the whole repo is
+making. New renderers get added above it.
+
 ## Run it
 
 ```bash
