@@ -1,0 +1,18 @@
+{
+  "name": "@react-everywhere/nil",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/cli.jsx --bundle --platform=node --format=esm --jsx=automatic --packages=external --outfile=dist/cli.js",
+    "dev": "npm run build && node dist/cli.js"
+  },
+  "dependencies": {
+    "@react-everywhere/logic": "*",
+    "react": "^19.2.8",
+    "react-nil": "^2.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.1"
+  }
+}

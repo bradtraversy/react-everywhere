@@ -22,6 +22,7 @@
     "video:render": "npm run render -w @react-everywhere/video",
     "pdf": "npm run dev -w @react-everywhere/pdf",
     "xr": "npm run dev -w @react-everywhere/xr",
-    "email": "npm run dev -w @react-everywhere/email"
+    "email": "npm run dev -w @react-everywhere/email",
+    "nil": "npm run dev -w @react-everywhere/nil"
   }
 }

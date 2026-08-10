@@ -19,6 +19,7 @@ The rule for this repo: **if a renderer requires editing `useTimer.js`, the rend
 | 7 | PDF | `@react-pdf/renderer` | done |
 | 8 | XR | React Three XR | done |
 | 9 | Email | React Email | done |
+| 10 | Nothing | `react-nil` | done |
 
 ## Run it
 
@@ -34,6 +35,7 @@ npm run video      # Remotion studio
 npm run video:render   # renders apps/video/out/timer.mp4, no server involved
 npm run pdf        # writes apps/pdf/out/timer.pdf - no server, no browser
 npm run email      # writes apps/email/out/summary.html and .txt
+npm run nil        # runs the hook with no renderer at all
 npm run xr         # http://localhost:5177
 ```
 
@@ -79,11 +81,11 @@ find . -name "useTimer*" -not -path "*/node_modules/*"
 git log --oneline -- packages/logic/useTimer.js
 ```
 
-One file, one commit, nine renderers importing it.
+One file, one commit, ten renderers importing it.
 
 ## Why this exists
 
-React is not a web library. It is a component model and a reconciler, and `react-dom` is one renderer among many. The part of React you actually carry between all nine of these - state, effects, composition, custom hooks - is the part worth learning properly.
+React is not a web library. It is a component model and a reconciler, and `react-dom` is one renderer among many. The part of React you actually carry between all ten of these - state, effects, composition, custom hooks - is the part worth learning properly.
 
 ## License
 
