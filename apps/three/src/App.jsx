@@ -1,12 +1,14 @@
 import { useTimer } from '@react-everywhere/logic';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { useRef } from 'react';
-import { glyphCells } from './glyphs.js';
+import { Center, Text3D } from '@react-three/drei';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Suspense, useRef } from 'react';
 
 const RING_RADIUS = 9;
 const OK = '#35d6a4';
 const WARN = '#f5b544';
 const DONE = '#ff5f56';
+const FONT_URL =
+  'https://threejs.org/examples/fonts/helvetiker_regular.typeface.json';
 
 function Digits({ label, color }) {
   const group = useRef();
@@ -19,18 +21,30 @@ function Digits({ label, color }) {
 
   return (
     <group ref={group}>
-      {glyphCells(label).map((position, i) => (
-        <mesh key={i} position={position} castShadow>
-          <boxGeometry args={[0.9, 0.9, 0.9]} />
-          <meshStandardMaterial
-            color={color}
-            emissive={color}
-            emissiveIntensity={0.35}
-            roughness={0.3}
-            metalness={0.1}
-          />
-        </mesh>
-      ))}
+      <Suspense fallback={null}>
+        <Center cacheKey={label}>
+          <Text3D
+            font={FONT_URL}
+            size={3.2}
+            height={0.65}
+            curveSegments={10}
+            bevelEnabled
+            bevelThickness={0.08}
+            bevelSize={0.05}
+            bevelSegments={4}
+            castShadow
+          >
+            {label}
+            <meshStandardMaterial
+              color={color}
+              emissive={color}
+              emissiveIntensity={0.35}
+              roughness={0.3}
+              metalness={0.1}
+            />
+          </Text3D>
+        </Center>
+      </Suspense>
     </group>
   );
 }
@@ -57,6 +71,19 @@ function Ring({ progress, color }) {
   );
 }
 
+function TimerScene({ label, progress, color }) {
+  const height = useThree((state) => state.size.height);
+  const sceneOffsetY =
+    1.4 + Math.min(2.1, Math.max(0, (700 - height) / 100));
+
+  return (
+    <group position={[0, sceneOffsetY, 0]}>
+      <Digits label={label} color={color} />
+      <Ring progress={progress} color={color} />
+    </group>
+  );
+}
+
 export default function App() {
   const { label, progress, running, finished, remaining, start, pause, reset } =
     useTimer();
@@ -70,8 +97,7 @@ export default function App() {
         <ambientLight intensity={0.5} />
         <directionalLight position={[8, 10, 12]} intensity={2.2} />
         <pointLight position={[-10, -6, 6]} intensity={40} color={color} />
-        <Digits label={label} color={color} />
-        <Ring progress={progress} color={color} />
+        <TimerScene label={label} progress={progress} color={color} />
       </Canvas>
 
       <div className="overlay">
