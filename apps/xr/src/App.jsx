@@ -1,12 +1,11 @@
 import { useTimer } from '@react-everywhere/logic';
+import { Center, Text3D } from '@react-three/drei';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { XR, createXRStore } from '@react-three/xr';
-import { useEffect, useRef, useState } from 'react';
-import { glyphCells } from './glyphs.js';
+import { Suspense, useEffect, useRef, useState } from 'react';
 
 // Everything below is in metres, because that is what a unit means once an
 // immersive session starts.
-const CELL = 0.11;
 const RING_RADIUS = 1.1;
 const RING_TUBE = 0.035;
 
@@ -18,6 +17,8 @@ const CAMERA = [0, 1.2, 1];
 const OK = '#35d6a4';
 const WARN = '#f5b544';
 const DONE = '#ff5f56';
+const FONT_URL =
+  'https://threejs.org/examples/fonts/helvetiker_regular.typeface.json';
 
 const store = createXRStore();
 
@@ -30,17 +31,28 @@ function Digits({ label, color }) {
 
   return (
     <group ref={group}>
-      {glyphCells(label).map(([x, y, z], i) => (
-        <mesh key={i} position={[x * CELL, y * CELL, z * CELL]}>
-          <boxGeometry args={[CELL * 0.9, CELL * 0.9, CELL * 0.9]} />
-          <meshStandardMaterial
-            color={color}
-            emissive={color}
-            emissiveIntensity={0.35}
-            roughness={0.3}
-          />
-        </mesh>
-      ))}
+      <Suspense fallback={null}>
+        <Center cacheKey={label}>
+          <Text3D
+            font={FONT_URL}
+            size={0.45}
+            height={0.08}
+            curveSegments={10}
+            bevelEnabled
+            bevelThickness={0.01}
+            bevelSize={0.006}
+            bevelSegments={4}
+          >
+            {label}
+            <meshStandardMaterial
+              color={color}
+              emissive={color}
+              emissiveIntensity={0.35}
+              roughness={0.3}
+            />
+          </Text3D>
+        </Center>
+      </Suspense>
     </group>
   );
 }
