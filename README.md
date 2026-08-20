@@ -1,5 +1,7 @@
 # react-everywhere
 
+This is an experiment for my "React Is Everywhere" YouTube video.
+
 One React hook. Every renderer. Zero edits to the logic.
 
 `packages/logic/useTimer.js` is a 60 second countdown written in plain JavaScript. It imports `useState`-era React and nothing else - no DOM, no browser, no host assumptions. Every app in this repo imports that exact file, unchanged, and renders it somewhere different.
